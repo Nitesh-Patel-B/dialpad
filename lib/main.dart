@@ -1016,72 +1016,123 @@ class _ScheduleState extends State<Schedule> {
                     SizedBox(
                       height: h * 0.63,
                       width: w * 1,
-                      child: ListView.builder(
-                        itemCount: issearch ? mpp.length : searchlist.length,
-                        itemBuilder: (context, index) {
-                          Map mapp = issearch ? mpp[index] : searchlist[index];
+                      child: mpp.isNotEmpty
+                          ? ListView.builder(
+                              itemCount:
+                                  issearch ? mpp.length : searchlist.length,
+                              itemBuilder: (context, index) {
+                                Map mapp =
+                                    issearch ? mpp[index] : searchlist[index];
 
-                          return InkWell(
-                            onTap: () {
-                              Navigator.push(context, MaterialPageRoute(
-                                builder: (context) {
-                                  // Map map=mpp[index];
-                                  // String map=mpp as String;
-                                  // String list=map;
-                                  // String list=map['names'];
-                                  int list = mpp[index]['listid'];
-                                  return Eventlist(list);
-                                },
-                              ));
-                            },
-                            child: Slidable(
-                                endActionPane: ActionPane(
-                                    motion: BehindMotion(),
-                                    children: [
-                                      SizedBox(
-                                        width: 30,
-                                      ),
-                                      ElevatedButton(
-                                          onPressed: () {
-                                            setState(() {
-                                              int idd = mpp[index]['listid'];
-                                              Dbhelper().deletdataa(dbbb!, idd);
-                                            });
-                                          },
-                                          child: Text(
-                                            'Delete',
-                                            style:
-                                                TextStyle(color: Colors.black),
-                                          )),
-                                      SizedBox(
-                                        width: 20,
-                                      ),
-                                      ElevatedButton(
-                                          onPressed: () {
-                                            int idd = mpp[index]['listid'];
-                                            String nam = mpp[index]['names'];
-                                            Navigator.push(context,
-                                                MaterialPageRoute(
-                                              builder: (context) {
-                                                return Listtupdt(idd, nam);
-                                              },
-                                            ));
-                                          },
-                                          child: Text(
-                                            'Edit',
-                                            style:
-                                                TextStyle(color: Colors.black),
-                                          ))
-                                    ]),
-                                child: Card(
-                                  color: Colors.black12,
-                                  child: ListTile(
-                                    title: Text('${mapp['names']}'),
+                                return InkWell(
+                                  onTap: () {
+                                    Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) {
+                                        // Map map=mpp[index];
+                                        // String map=mpp as String;
+                                        // String list=map;
+                                        // String list=map['names'];
+                                        int list = mpp[index]['listid'];
+                                        return Eventlist(list);
+                                      },
+                                    ));
+                                  },
+                                  child: Slidable(
+                                      endActionPane: ActionPane(
+                                          motion: BehindMotion(),
+                                          children: [
+                                            SizedBox(
+                                              width: 30,
+                                            ),
+                                            ElevatedButton(
+                                                onPressed: () {
+                                                  setState(() {
+                                                    int idd =
+                                                        mpp[index]['listid'];
+                                                    Dbhelper()
+                                                        .deletdataa(dbbb!, idd);
+                                                  });
+                                                },
+                                                child: Text(
+                                                  'Delete',
+                                                  style: TextStyle(
+                                                      color: Colors.black),
+                                                )),
+                                            SizedBox(
+                                              width: 20,
+                                            ),
+                                            ElevatedButton(
+                                                onPressed: () {
+                                                  int idd =
+                                                      mpp[index]['listid'];
+                                                  String nam =
+                                                      mpp[index]['names'];
+                                                  Navigator.push(context,
+                                                      MaterialPageRoute(
+                                                    builder: (context) {
+                                                      return Listtupdt(
+                                                          idd, nam);
+                                                    },
+                                                  ));
+                                                },
+                                                child: Text(
+                                                  'Edit',
+                                                  style: TextStyle(
+                                                      color: Colors.black),
+                                                ))
+                                          ]),
+                                      child: Card(
+                                        color: Colors.black12,
+                                        child: ListTile(
+                                          title: Text('${mapp['names']}'),
+                                        ),
+                                      )),
+                                );
+                              },
+                            )
+                          : Container(
+                              color: Colors.black12,
+                              child: Center(
+                                  child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "No Data",
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.red.shade300),
                                   ),
-                                )),
-                          );
-                        },
-                      ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  Row(mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        "Click ",
+                                        style: TextStyle(
+                                            fontStyle: FontStyle.italic,
+                                            fontSize: 15,
+                                            color: Colors.black),
+                                      ),Text(
+                                        "Add List",
+                                        style: TextStyle(
+                                            fontStyle: FontStyle.italic,
+                                            fontSize: 20,
+                                            color: Colors.green.shade800,fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        " to Add Reminder List",
+                                        style: TextStyle(
+                                            fontStyle: FontStyle.italic,
+                                            fontSize: 15,
+                                            color: Colors.black),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              )),
+                            ),
                     )
                   ],
                 )
