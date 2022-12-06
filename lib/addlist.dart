@@ -41,12 +41,19 @@ class _AddlistState extends State<Addlist> {
           TextButton(
               onPressed: () {
                 String nm = name.text;
-                Dbhelper().indataa(nm, db!);
+                if(name.text.isNotEmpty){
+                  Dbhelper().indataa(nm, db!);
+                  Navigator.pop(context);
 
-                Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    duration: Duration(seconds: 2),
-                    content: Text("List Added")));
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      duration: Duration(seconds: 2),
+                      content: Text("List Added")));
+                }
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Empty")));
+
+
+
+
               },
               child: Text(
                 "Save",
