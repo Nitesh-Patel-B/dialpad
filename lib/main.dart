@@ -569,7 +569,7 @@ class _KeypadState extends State<Keypad> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  margin: EdgeInsets.only(left: tw * 0.1),
+                  margin: EdgeInsets.only(left: tw * 0.09),
                   height: bh * 0.1,
                   width: tw * 0.23,
                   decoration: const BoxDecoration(
@@ -600,7 +600,7 @@ class _KeypadState extends State<Keypad> {
                                     )));
                           },
                           icon: const Icon(
-                            Icons.call,
+                            Icons.call,color: Colors.green,
                             size: 36,
                           )),
                     ),
@@ -688,7 +688,7 @@ class _KeypadState extends State<Keypad> {
                               // }
                             },
                             icon: const Icon(
-                              Icons.whatsapp,
+                              Icons.whatsapp,color: Colors.green,
                               size: 35,
                             )),
                       )),
@@ -702,7 +702,7 @@ class _KeypadState extends State<Keypad> {
                   child: InkWell(
                     child: const Center(
                       child: Icon(
-                        Icons.share,
+                        Icons.share,color: Colors.teal,
                         size: 35,
                       ),
                     ),
@@ -1106,7 +1106,8 @@ class _ScheduleState extends State<Schedule> {
                                   SizedBox(
                                     height: 20,
                                   ),
-                                  Row(mainAxisAlignment: MainAxisAlignment.center,
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
                                         "Click ",
@@ -1114,12 +1115,14 @@ class _ScheduleState extends State<Schedule> {
                                             fontStyle: FontStyle.italic,
                                             fontSize: 15,
                                             color: Colors.black),
-                                      ),Text(
+                                      ),
+                                      Text(
                                         "Add List",
                                         style: TextStyle(
                                             fontStyle: FontStyle.italic,
                                             fontSize: 20,
-                                            color: Colors.green.shade800,fontWeight: FontWeight.bold),
+                                            color: Colors.green.shade800,
+                                            fontWeight: FontWeight.bold),
                                       ),
                                       Text(
                                         " to Add Reminder List",

@@ -42,7 +42,11 @@ class _AddlistState extends State<Addlist> {
               onPressed: () {
                 String nm = name.text;
                 Dbhelper().indataa(nm, db!);
+
                 Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    duration: Duration(seconds: 2),
+                    content: Text("List Added")));
               },
               child: Text(
                 "Save",
