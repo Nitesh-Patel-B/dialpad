@@ -13,9 +13,10 @@ class Update extends StatefulWidget {
   String title;
   String imges;
   String timme;
+  int lst;
 
   Update(this.imges, this.id, this.name, this.number, this.mesag, this.title,
-      this.timme,
+      this.timme, this.lst,
       {super.key}); // const Update({Key? key}) : super(key: key);
 
   @override
@@ -24,10 +25,13 @@ class Update extends StatefulWidget {
 
 class _UpdateState extends State<Update> {
   Database? dbb;
-
+  Database? dbbb;
+  List<Map> mp = [];
+  List<String> mylist = [];
   String? choose;
   DateTime dd = DateTime.now();
   TimeOfDay tt = TimeOfDay.now();
+  String? selectval;
 
   time(BuildContext context) async {
     TimeOfDay? timePick =
@@ -59,10 +63,48 @@ class _UpdateState extends State<Update> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    getdataa();
+    print("Listpassed==${widget.lst}");
 
     // getdata();
   }
 
+  Future<void> getdataa() async {
+    Dbhelper().Getdatabs().then((value) {
+      setState(() {
+        dbbb = value;
+      });
+      Dbhelper().viewdataa(dbbb!).then((values) {
+        setState(() {
+          mp = values;
+
+          for (int i = 0; i < mp.length; i++) {
+            var data = mp[i].values.toString();
+            var key = mp[i].keys.toString();
+            var ts = mp[i].toString();
+
+            setState(() {
+              mylist.add(data);
+            });
+
+            if (kDebugMode) {
+              print("keykeykeykey$key");
+              print("datadatadatadata$data");
+              // print("mylistmylistnylist$mylist");
+              print("tostringtostring$ts");
+
+              // keykeykeykey[id, names]                 list
+              // datadatadatadata(1, one)                String
+              // mylistmylistnylist[{id: 1, names: one}] ListofMap
+              // tostringtostring{id: 1, names: one}     Map
+
+            }
+          }
+        });
+      });
+      return Future.value();
+    });
+  }
   // getdata() {
   //   Dbhelper().Getdatabs().then((value) {
   //     setState(() {
@@ -77,19 +119,20 @@ class _UpdateState extends State<Update> {
     TextEditingController number = TextEditingController();
     TextEditingController name = TextEditingController();
     TextEditingController msg = TextEditingController();
-    double th=MediaQuery.of(context).size.height;
-    double tw=MediaQuery.of(context).size.width;
-    double sth=MediaQuery.of(context).padding.top;
-    double nvh=MediaQuery.of(context).padding.bottom;
-    double aph=kToolbarHeight;
-    double bh=th-sth-aph-nvh;
+    double th = MediaQuery.of(context).size.height;
+    double tw = MediaQuery.of(context).size.width;
+    double sth = MediaQuery.of(context).padding.top;
+    double nvh = MediaQuery.of(context).padding.bottom;
+    double aph = kToolbarHeight;
+    double bh = th - sth - aph - nvh;
+
     return Scaffold(
       appBar: AppBar(
           actions: [
             TextButton(
                 onPressed: () {
                   if (choose == "Whatsapp") {
-                    int id = widget.id;
+                    // int id = widget.id;
                     String titl = title.text;
                     title.text = widget.title;
                     String nm = name.text;
@@ -99,23 +142,29 @@ class _UpdateState extends State<Update> {
                     String msgg = msg.text;
                     msg.text = widget.mesag;
                     String img = widget.imges;
+                    int lt = widget.lst;
                     String iim = "images/whatsapp.png";
                     img = iim;
                     String tyme =
                         "${tt.hour.toString().padLeft(2, '0')}:${tt.minute.toString().padLeft(2, '0')}  ${tt.period.name}  "
                         "${dd.day.toString().padLeft(2, '0')}-${dd.month.toString().padLeft(2, '0')}-${dd.year}";
+                    var i = selectval!.split(",")[0].replaceAll("(", "");
+                    if (kDebugMode) {
+                      print("updateselected====$lt");
+                      print("SELECT updateselected====$selectval");
+                    }
 
                     if (kDebugMode) {
                       print("updtetimeshow==$tyme");
                     }
 
-                    // Dbhelper()
-                    //     .updatedata(id, titl, nm, nmr, msgg, img, tyme, dbb!)
-                    //     .then((value) {
-                    //   Navigator.pop(context);
-                    // });
+                    Dbhelper()
+                        .updatedata(titl, nm, nmr, msgg, img, tyme, i, dbb!)
+                        .then((value) {
+                      Navigator.pop(context);
+                    });
                   } else if (choose == "message") {
-                    int id = widget.id;
+                    // int id = widget.id;
                     String titl = title.text;
                     title.text = widget.title;
                     String nm = name.text;
@@ -125,17 +174,21 @@ class _UpdateState extends State<Update> {
                     String msgg = msg.text;
                     msg.text = widget.mesag;
                     String img = widget.imges;
+                    int lst = widget.lst;
                     String iim = "images/message.jpg";
                     img = iim;
                     String tyme =
                         "${tt.hour.toString().padLeft(2, '0')}:${tt.minute.toString().padLeft(2, '0')}  ${tt.period.name}  "
                         "${dd.day.toString().padLeft(2, '0')}-${dd.month.toString().padLeft(2, '0')}-${dd.year}";
-
-                    // Dbhelper()
-                    //     .updatedata(id, titl, nm, nmr, msgg, img, tyme, dbb!)
-                    //     .then((value) {
-                    //   Navigator.pop(context);
-                    // });
+                    var i = selectval!.split(",")[0].replaceAll("(", "");
+                    if (kDebugMode) {
+                      print("updateselected====$lst");
+                    }
+                    Dbhelper()
+                        .updatedata(titl, nm, nmr, msgg, img, tyme, i, dbb!)
+                        .then((value) {
+                      Navigator.pop(context);
+                    });
                   } else if (number.text.isEmpty ||
                       title.text.isEmpty ||
                       name.text.isEmpty ||
@@ -152,7 +205,7 @@ class _UpdateState extends State<Update> {
                   "Update",
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: bh*0.03,
+                      fontSize: bh * 0.03,
                       color: Colors.black),
                 ))
           ],
@@ -166,7 +219,8 @@ class _UpdateState extends State<Update> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height: bh*0.1,
+              SizedBox(
+                height: bh * 0.1,
                 child: TextFormField(
                   controller: title,
                   decoration: InputDecoration(
@@ -179,7 +233,8 @@ class _UpdateState extends State<Update> {
                 height: bh * 0.01,
               ),
               Container(
-                height: bh * 0.32,width: tw*1,
+                height: bh * 0.32,
+                width: tw * 1,
                 color: Colors.black12,
                 child: Column(
                   children: [
@@ -194,7 +249,10 @@ class _UpdateState extends State<Update> {
                             });
                           },
                         ),
-                        Text("WhatsApp",style: TextStyle(fontSize: bh*0.03),),
+                        Text(
+                          "WhatsApp",
+                          style: TextStyle(fontSize: bh * 0.03),
+                        ),
                         SizedBox(
                           width: tw * 0.15,
                         ),
@@ -207,13 +265,15 @@ class _UpdateState extends State<Update> {
                             });
                           },
                         ),
-                         Text("Text Message",style: TextStyle(fontSize: bh*0.03))
+                        Text("Text Message",
+                            style: TextStyle(fontSize: bh * 0.03))
                       ],
                     ),
                     Container(
                       color: Colors.black,
                       height: bh * 0.002,
-                      margin: EdgeInsets.only(left: tw*0.01, right: tw*0.01),
+                      margin:
+                          EdgeInsets.only(left: tw * 0.01, right: tw * 0.01),
                     ),
                     SizedBox(height: bh * 0.02),
                     Row(
@@ -226,7 +286,8 @@ class _UpdateState extends State<Update> {
                         SizedBox(
                           height: bh * 0.07,
                           width: tw * 0.46,
-                          child: TextFormField(style: TextStyle(fontSize: bh*0.035),
+                          child: TextFormField(
+                            style: TextStyle(fontSize: bh * 0.035),
                             controller: name,
                             decoration: InputDecoration(
                                 hintText: widget.name,
@@ -246,7 +307,7 @@ class _UpdateState extends State<Update> {
                       ],
                     ),
                     Container(
-                      margin: EdgeInsets.only(left: tw*0.01),
+                      margin: EdgeInsets.only(left: tw * 0.01),
                       height: bh * 0.07,
                       width: tw * 0.47,
                       child: TextFormField(
@@ -273,9 +334,9 @@ class _UpdateState extends State<Update> {
                         IconButton(
                             onPressed: () {},
                             icon: const Icon(Icons.calendar_today_sharp)),
-                         Text(
+                        Text(
                           "Date",
-                          style: TextStyle(fontSize: bh*0.03),
+                          style: TextStyle(fontSize: bh * 0.03),
                         ),
                         SizedBox(
                           width: tw * 0.37,
@@ -294,7 +355,9 @@ class _UpdateState extends State<Update> {
                               });
                             },
                             child: Text(
-                                "${dd.day.toString().padLeft(2, '0')}-${dd.month.toString().padLeft(2, '0')}-${dd.year}",style: TextStyle(fontSize: bh*0.027),),
+                              "${dd.day.toString().padLeft(2, '0')}-${dd.month.toString().padLeft(2, '0')}-${dd.year}",
+                              style: TextStyle(fontSize: bh * 0.027),
+                            ),
                           ),
                         )
                       ],
@@ -330,7 +393,9 @@ class _UpdateState extends State<Update> {
                               });
                             },
                             child: Text(
-                                "${tt.hour.toString().padLeft(2, '0')}:${tt.minute.toString().padLeft(2, '0')} ${tt.period.name}",style: TextStyle(fontSize: bh*0.03),),
+                              "${tt.hour.toString().padLeft(2, '0')}:${tt.minute.toString().padLeft(2, '0')} ${tt.period.name}",
+                              style: TextStyle(fontSize: bh * 0.03),
+                            ),
                             // child: Text(
                             //     "${tt.hour.bitLength.toString().padLeft(2, '0')}:${tt.minute.toString().padLeft(2, '0')} ${tt.period.name}"),
                           ),
@@ -343,35 +408,81 @@ class _UpdateState extends State<Update> {
               SizedBox(
                 height: bh * 0.01,
               ),
-              Container(
-                color: Colors.black12,
-                child: Row(
-                  children: [
-                    Row(
-                      children: [
-                        IconButton(
-                            onPressed: () {}, icon: const Icon(Icons.swipe)),
-                         Text(
-                          "Repeat",
-                          style: TextStyle(fontSize: bh*0.03),
-                        ),
-                        SizedBox(
-                          width: tw * 0.38,
-                        ),
-                        Container(
-                          height: bh * 0.04,
-                          width: tw * 0.25,
-                          color: Colors.black12,
-                        )
-                      ],
-                    )
-                  ],
-                ),
-              ),
+              Row(
+                children: [
+                  Icon(Icons.list, size: 35),
+                  Text(
+                    "  List",
+                    style: TextStyle(fontSize: bh * 0.03),
+                  ),
+                  SizedBox(width: tw * 0.35),
+                  DropdownButton(
+                    dropdownColor: Colors.grey,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontStyle: FontStyle.italic,
+                        fontSize: 20),
+                    hint: Text("Select List"),
+                    value: selectval,
+                    onChanged: (value) {
+                      setState(() {
+                        selectval = value.toString();
+                        if (kDebugMode) {
+                          print("selected List==${selectval}");
+                        }
+                      });
+
+                      print("outState=${widget.lst}");
+                    },
+                    items: mylist.map((itemone) {
+                      return DropdownMenuItem(
+                          alignment: Alignment.center,
+
+                          // onTap: () {
+                          //   setState(() {
+                          //     print("this$selectval");
+                          //   });
+                          //
+                          // },
+
+                          value: itemone,
+                          child: Text(itemone));
+                    }).toList(),
+                  ),
+                ],
+              )
+              // Container(
+              //   color: Colors.black12,
+              //   child: Row(
+              //     children: [
+              //       Row(
+              //         children: [
+              //           IconButton(
+              //               onPressed: () {}, icon: const Icon(Icons.swipe)),
+              //            Text(
+              //             "Repeat",
+              //             style: TextStyle(fontSize: bh*0.03),
+              //           ),
+              //           SizedBox(
+              //             width: tw * 0.38,
+              //           ),
+              //           Container(
+              //             height: bh * 0.04,
+              //             width: tw * 0.25,
+              //             color: Colors.black12,
+              //           )
+              //         ],
+              //       )
+              //     ],
+              //   ),
+              // ),
+              ,
               SizedBox(
                 height: bh * 0.01,
               ),
-              Container(height: bh*0.15,width: tw*1,
+              Container(
+                height: bh * 0.15,
+                width: tw * 1,
                 child: TextFormField(
                   controller: msg,
                   maxLines: 5,

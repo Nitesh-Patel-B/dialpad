@@ -57,7 +57,8 @@ class _ListtupdtState extends State<Listtupdt> {
         padding: EdgeInsets.only(left: 10, right: 10, top: 40),
         child: TextField(
           controller: nam,
-          decoration: InputDecoration(hintText: widget.nm,
+          decoration: InputDecoration(
+              hintText: widget.nm,
               border:
                   OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
         ),

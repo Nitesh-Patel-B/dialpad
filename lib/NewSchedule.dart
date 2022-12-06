@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:dialpad/DBhelper.dart';
 import 'package:dialpad/addlist.dart';
@@ -110,7 +108,6 @@ class _EventState extends State<Event> {
             var key = mp[i].keys.toString();
             var ts = mp[i].toString();
 
-
             setState(() {
               mylist.add(data);
             });
@@ -210,9 +207,10 @@ class _EventState extends State<Event> {
                     String det =
                         "${tt.hour.remainder(12).toString().padLeft(2, '0')}:${tt.minute.toString().padLeft(2, '0')}  ${tt.period.name}  "
                         "\n${dd.day.toString().padLeft(2, '0')}-${dd.month.toString().padLeft(2, '0')}-${dd.year}";
-
-                    Dbhelper().indata(
-                        nmw, numw, mesg, titles, img, det, selectval!, dbb!);
+                    var i = selectval!.split(",")[0].replaceAll("(", "");
+                    print("qqqqqqqqqqqqqqqqqqqqqqqqq$i");
+                    Dbhelper()
+                        .indata(nmw, numw, mesg, titles, img, det, i, dbb!);
 
                     if (kDebugMode) {
                       print("whatsapp cliked");
@@ -236,9 +234,10 @@ class _EventState extends State<Event> {
                     String det =
                         "${tt.hour.remainder(12).toString().padLeft(2, '0')}:${tt.minute.toString().padLeft(2, '0')} ${tt.period.name}  "
                         "\n${dd.day.toString().padLeft(2, '0')}-${dd.month.toString().padLeft(2, '0')}-${dd.year}";
+                    var i = selectval!.split(",")[0].replaceAll("(", "");
 
-                    Dbhelper().indata(
-                        nmw, numw, mesg, titles, img, det, selectval!, dbb!);
+                    Dbhelper()
+                        .indata(nmw, numw, mesg, titles, img, det, i, dbb!);
                     setState(() {});
                     if (kDebugMode) {
                       print("massage cliked");

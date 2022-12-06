@@ -5,13 +5,11 @@ import 'package:dialpad/NewSchedule.dart';
 import 'package:dialpad/addlist.dart';
 import 'package:dialpad/Schedule.dart';
 import 'package:dialpad/recent.dart';
-import 'package:dialpad/update.dart';
 import 'package:dialpad/update3.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:lottie/lottie.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
@@ -859,13 +857,13 @@ class _ScheduleState extends State<Schedule> {
           dbb = value;
         });
       }
-      Dbhelper().viewdata(dbb!).then((valuelistmap) {
-        if (mounted) {
-          setState(() {
-            mp = valuelistmap;
-          });
-        }
-      });
+      // Dbhelper().viewdata(,dbb!).then((valuelistmap) {
+      //   if (mounted) {
+      //     setState(() {
+      //       mp = valuelistmap;
+      //     });
+      //   }
+      // });
     });
     return Future.value();
   }
@@ -1027,7 +1025,12 @@ class _ScheduleState extends State<Schedule> {
                             onTap: () {
                               Navigator.push(context, MaterialPageRoute(
                                 builder: (context) {
-                                  return Eventlist();
+                                  // Map map=mpp[index];
+                                  // String map=mpp as String;
+                                  // String list=map;
+                                  // String list=map['names'];
+                                  int list = mpp[index]['listid'];
+                                  return Eventlist(list);
                                 },
                               ));
                             },
@@ -1041,9 +1044,8 @@ class _ScheduleState extends State<Schedule> {
                                       ElevatedButton(
                                           onPressed: () {
                                             setState(() {
-                                              int idd = mpp[index]['id'];
-                                              Dbhelper()
-                                                  .deletdataa(dbbb!, idd);
+                                              int idd = mpp[index]['listid'];
+                                              Dbhelper().deletdataa(dbbb!, idd);
                                             });
                                           },
                                           child: Text(
@@ -1056,7 +1058,7 @@ class _ScheduleState extends State<Schedule> {
                                       ),
                                       ElevatedButton(
                                           onPressed: () {
-                                            int idd = mpp[index]['id'];
+                                            int idd = mpp[index]['listid'];
                                             String nam = mpp[index]['names'];
                                             Navigator.push(context,
                                                 MaterialPageRoute(

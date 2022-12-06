@@ -37,15 +37,17 @@ class LocalNotificationService {
 
   Future<NotificationDetails> _notificationDetails() async {
     const AndroidNotificationDetails androidNotificationDetails =
-        AndroidNotificationDetails('channel_id', 'channel_name',
-            channelDescription: 'description',
-            importance: Importance.max,
-            priority: Priority.max,
-            playSound: true,
-            enableVibration: true,
-            // icon: '@mipmap/ic_launcher',
-            largeIcon: DrawableResourceAndroidBitmap('@mipmap/ic_launcher'),subText: 'Alert',
-        );
+        AndroidNotificationDetails(
+      'channel_id', 'channel_name',
+      channelDescription: 'description',
+      importance: Importance.max,
+      priority: Priority.max,
+      playSound: true,
+      enableVibration: true,
+      // icon: '@mipmap/ic_launcher',
+      largeIcon: DrawableResourceAndroidBitmap('@mipmap/ic_launcher'),
+      subText: 'Alert',
+    );
 
     // const IOSNotificationDetails iosNotificationDetails =
     // IOSNotificationDetails();
@@ -105,7 +107,6 @@ class LocalNotificationService {
     print('payload $payload');
     if (payload != null && payload.isNotEmpty) {
       onNotificationClick.add(payload);
-
     }
   }
 }

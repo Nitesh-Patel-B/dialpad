@@ -98,10 +98,10 @@ class Dbhelper {
     Database database = await openDatabase(pathh, version: 1,
         onCreate: (Database dbb, int version) async {
       await dbb.execute(
-          'create table List (id integer primary key autoincrement, names Text)');
+          'create table List (listid integer primary key autoincrement, names Text)');
 
-      await dbb.execute("""
-          create table Schedule (id integer primary key autoincrement, namew Text, numberw Text, messagew Text, title Text, imagew Text,datew Text, ListData integer, FOREIGN KEY(ListData) REFERENCES List(id))""");
+      await dbb.execute(
+          'create table Schedule (id integer primary key autoincrement, namew Text, numberw Text, messagew Text, title Text, imagew Text,datew Text, ListData integer, FOREIGN KEY(ListData) REFERENCES List(listid))');
     });
     return database;
   }
@@ -134,23 +134,28 @@ class Dbhelper {
   }
 
   Future<void> deletdataa(Database dbbb, int id) async {
-    String delete = "delete from List where id='${id}'";
+    String delete = "delete from List where listid='${id}'";
     int ccntt = await dbbb.rawDelete(delete);
     print("third db Deleted==$ccntt");
   }
 
   Future<void> updat(int id, String nme, Database db) async {
-    String updat = "update List set names='$nme' where id='$id' ";
+    String updat = "update List set names='$nme' where listid='$id' ";
     int updte = await db.rawUpdate(updat);
     print("update third databs==$updte");
   }
 
-  Future<List<Map>> viewdata(Database database) async {
-    String viewqry = "select * from Schedule";
+  Future<List<Map>> viewdata(int lists, Database database) async {
+    String viewqry = "select * from Schedule where ListData=$lists";
+    // String viewqry = "select * from Schedule";
+    // String viewqry = "SELECT * FROM List where names";
     List<Map> list = await database.rawQuery(viewqry);
 
     if (kDebugMode) {
-      print("2ndlist$list");
+      print("2ndlistUniqueData$list");
+    }
+    if (kDebugMode) {
+      print("2ndlistUniqueData2ndlistUniqueData2ndlistUniqueData$lists");
     }
 
     return list;
@@ -164,10 +169,10 @@ class Dbhelper {
     }
   }
 
-  Future<void> updatedata(int id, String titl, String nm, String nmr,
-      String msgg, String imes, String times, Database dbb) async {
+  Future<void> updatedata(String titl, String nm, String nmr, String msgg,
+      String imes, String times, String i, Database dbb) async {
     String updt =
-        "update Schedule set namew='$nm',numberw='$nmr',messagew='$msgg',title='$titl',imagew='$imes' ,datew='$times' where id='$id'";
+        "update Schedule set namew='$nm',numberw='$nmr',messagew='$msgg',title='$titl',imagew='$imes' ,datew='$times' where ListData='$i'";
     int updtt = await dbb.rawUpdate(updt);
     print("Update2==$updtt");
   }
