@@ -36,7 +36,7 @@ class _EventlistState extends State<Eventlist> {
     getdataa();
   }
 
-  getdataa() {
+  Future<void> getdataa() async {
     Dbhelper().Getdatabs().then((value) {
       setState(() {
         dbbb = value;
@@ -51,7 +51,7 @@ class _EventlistState extends State<Eventlist> {
   }
 
 //TODO
-  getdata() {
+  Future<void> getdata() async {
     Dbhelper().Getdatabs().then((value) {
       setState(() {
         dbb = value;
@@ -137,194 +137,226 @@ class _EventlistState extends State<Eventlist> {
               ))
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(children: [
-          Container(
-            height: 80,
-            padding: EdgeInsets.only(top: 30, left: 10, right: 10),
-            child: TextField(
-              onChanged: (value) {
-                setState(() {
-                  if (value.isNotEmpty) {
-                    searchlist = [];
-                    for (int i = 0; i < mp.length; i++) {
-                      String namm = mp[i]['title'];
-                      if (namm.toLowerCase().contains(value.toLowerCase())) {
-                        searchlist.add(mp[i]);
+      body: RefreshIndicator(
+        onRefresh: getdataa,
+        strokeWidth: 3,
+        edgeOffset: 5,
+        displacement: 50,
+        color: Colors.green,
+        backgroundColor: Colors.white70,
+        child: SingleChildScrollView(
+          child: Column(children: [
+            Container(
+              height: 80,
+              padding: EdgeInsets.only(top: 30, left: 10, right: 10),
+              child: TextField(
+                onChanged: (value) {
+                  setState(() {
+                    if (value.isNotEmpty) {
+                      searchlist = [];
+                      for (int i = 0; i < mp.length; i++) {
+                        String namm = mp[i]['title'];
+                        if (namm.toLowerCase().contains(value.toLowerCase())) {
+                          searchlist.add(mp[i]);
+                        }
                       }
+                    } else {
+                      searchlist = mp;
                     }
-                  } else {
-                    searchlist = mp;
-                  }
-                });
-              },
-              decoration: InputDecoration(
-                  suffixIcon: AvatarGlow(
-                      animate: onlisn,
-                      glowColor: Theme.of(context).primaryColor,
-                      duration: const Duration(milliseconds: 2000),
-                      repeatPauseDuration: const Duration(seconds: 1),
-                      repeat: true,
-                      endRadius: 40,
-                      child: IconButton(
-                          onPressed: () => lisn(),
-                          icon: Icon(onlisn ? Icons.mic : Icons.mic_none))),
-                  prefixIcon: Icon(Icons.search),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10))),
+                  });
+                },
+                decoration: InputDecoration(
+                    suffixIcon: AvatarGlow(
+                        animate: onlisn,
+                        glowColor: Theme.of(context).primaryColor,
+                        duration: const Duration(milliseconds: 2000),
+                        repeatPauseDuration: const Duration(seconds: 1),
+                        repeat: true,
+                        endRadius: 40,
+                        child: IconButton(
+                            onPressed: () => lisn(),
+                            icon: Icon(onlisn ? Icons.mic : Icons.mic_none))),
+                    prefixIcon: Icon(Icons.search),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10))),
+              ),
             ),
-          ),
 
-          //TODO 2start
-          //
-          // Container(
-          //   height: bh * 0.8,
-          //   child: ListView.builder(
-          //     itemCount: mp.length,
-          //     itemBuilder: (context, index) {
-          //       // Map map = mp[index];
-          //       return Card(
-          //         child: ListTile(title: Text("")),
-          //       );
-          //     },
-          //   ),
-          // )
 
-          //TODO 2end
+            //
+            // Container(
+            //   height: bh * 0.8,
+            //   child: ListView.builder(
+            //     itemCount: mp.length,
+            //     itemBuilder: (context, index) {
+            //       // Map map = mp[index];
+            //       return Card(
+            //         child: ListTile(title: Text("")),
+            //       );
+            //     },
+            //   ),
+            // )
 
-          // TODO Start
 
-          Container(margin: EdgeInsets.only(top: 20),
-              height: bh * 0.85,
-              // height: h * 0.391,
 
-              child: mp.isNotEmpty
-                  ? ListView.builder(
-                      itemCount: issearch ? mp.length : searchlist.length,
-                      itemBuilder: (context, index) {
-                        Map map = issearch ? mp[index] : searchlist[index];
 
-                        return InkWell(
-                          onTap: () {
-                            int id = mp[index]['id'];
-                            String name = mp[index]['namew'];
-                            String number = mp[index]['numberw'];
-                            String msgg = mp[index]['messagew'];
-                            String title = mp[index]['title'];
-                            String imes = mp[index]['imagew'];
-                            String ttime = mp[index]['datew'];
-                            int lt = widget.list;
 
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => Update(imes, id, name,
-                                      number, msgg, title, ttime, lt),
-                                ));
-                          },
-                          onLongPress: () {},
-                          child: Card(
-                            child: ListTile(
-                              leading: SizedBox(
-                                  height: bh * 0.07,
-                                  width: tw * 0.12,
-                                  child: Image.asset(mp[index]['imagew'])),
-                              title: Text("${map['title']}",
-                                  style: const TextStyle(
-                                      fontSize: 25,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontStyle: FontStyle.italic)),
-                              subtitle: Container(
-                                child: Text(
-                                  "${mp[index]['numberw']}(${mp[index]['namew']})${mp[index]['datew']}",
-                                  //trackartist
-                                  style: const TextStyle(fontSize: 20),
+            Container(
+                margin: EdgeInsets.only(top: 20),
+                height: bh * 0.85,
+                // height: h * 0.391,
+
+                child: mp.isNotEmpty
+                    ? ListView.builder(
+                        itemCount: issearch ? mp.length : searchlist.length,
+                        itemBuilder: (context, index) {
+                          Map map = issearch ? mp[index] : searchlist[index];
+
+                          return InkWell(
+                            onTap: () {
+                              int id = mp[index]['id'];
+                              String name = mp[index]['namew'];
+                              String number = mp[index]['numberw'];
+                              String msgg = mp[index]['messagew'];
+                              String title = mp[index]['title'];
+                              String imes = mp[index]['imagew'];
+                              String ttime = mp[index]['datew'];
+                              int lt = widget.list;
+
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Update(imes, id, name,
+                                        number, msgg, title, ttime, lt),
+                                  ));
+                            },
+                            onLongPress: () {},
+                            child: Card(
+                              child: ListTile(
+                                leading: SizedBox(
+                                    height: bh * 0.07,
+                                    width: tw * 0.12,
+                                    child: Image.asset(mp[index]['imagew'])),
+                                title: Text("${map['title']}",
+                                    style: const TextStyle(
+                                        fontSize: 25,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontStyle: FontStyle.italic)),
+                                subtitle: Container(
+                                  child: Text(
+                                    "${mp[index]['numberw']}(${mp[index]['namew']})${mp[index]['datew']}",
+                                    //trackartist
+                                    style: const TextStyle(fontSize: 20),
+                                  ),
                                 ),
-                              ),
-                              trailing: Container(
-                                child: PopupMenuButton(
-                                  onSelected: (value) {
-                                    if (value == 1) {
-                                      int id = mp[index]['id'];
-                                      String name = mp[index]['namew'];
-                                      String number = mp[index]['numberw'];
-                                      String msgg = mp[index]['messagew'];
-                                      String title = mp[index]['title'];
-                                      String imes = mp[index]['imagew'];
-                                      String ttime = mp[index]['datew'];
-                                      int lst = widget.list;
+                                trailing: Container(
+                                  child: PopupMenuButton(
+                                    onSelected: (value) {
+                                      if (value == 1) {
+                                        int id = mp[index]['id'];
+                                        String name = mp[index]['namew'];
+                                        String number = mp[index]['numberw'];
+                                        String msgg = mp[index]['messagew'];
+                                        String title = mp[index]['title'];
+                                        String imes = mp[index]['imagew'];
+                                        String ttime = mp[index]['datew'];
+                                        int lst = widget.list;
 
-                                      Navigator.push(context, MaterialPageRoute(
-                                        builder: (context) {
-                                          return Update(imes, id, name, number,
-                                              msgg, title, ttime, lst);
-                                        },
-                                      ));
-                                    }
-                                  },
-                                  itemBuilder: (context) {
-                                    return [
-                                      PopupMenuItem(
-                                          value: 0,
-                                          textStyle: const TextStyle(
-                                              color: Colors.redAccent),
-                                          height: bh * 0.1,
-                                          // height: h * 0.1,
-                                          onTap: () {
-                                            int id = mp[index]['id'];
-                                            Dbhelper().deletdata(dbb!, id);
+                                        Navigator.push(context,
+                                            MaterialPageRoute(
+                                          builder: (context) {
+                                            return Update(
+                                                imes,
+                                                id,
+                                                name,
+                                                number,
+                                                msgg,
+                                                title,
+                                                ttime,
+                                                lst);
                                           },
-                                          child: const Icon(Icons.delete)),
-                                      PopupMenuItem(
-                                          onTap: () {},
-                                          textStyle: const TextStyle(
-                                              color: Colors.blue),
-                                          // height: h * 0.1,
-                                          height: bh * 0.1,
-                                          value: 1,
-                                          child: const Icon(Icons.update)),
-                                      PopupMenuItem(
-                                          onTap: () {
-                                            dbb!.delete('Schedule');
-                                            if (kDebugMode) {
-                                              print("All Deleted");
-                                            }
-                                          },
-                                          child: const Text("DeleteAll"))
-                                    ];
-                                  },
+                                        ));
+                                      }
+                                    },
+                                    itemBuilder: (context) {
+                                      return [
+                                        PopupMenuItem(
+                                            value: 0,
+                                            textStyle: const TextStyle(
+                                                color: Colors.redAccent),
+                                            height: bh * 0.1,
+                                            // height: h * 0.1,
+                                            onTap: () {
+                                              int id = mp[index]['id'];
+                                              Dbhelper().deletdata(dbb!, id);
+                                            },
+                                            child: const Icon(Icons.delete)),
+                                        PopupMenuItem(
+                                            onTap: () {},
+                                            textStyle: const TextStyle(
+                                                color: Colors.blue),
+                                            // height: h * 0.1,
+                                            height: bh * 0.1,
+                                            value: 1,
+                                            child: const Icon(Icons.update)),
+                                        PopupMenuItem(
+                                            onTap: () {
+                                              dbb!.delete('Schedule');
+                                              if (kDebugMode) {
+                                                print("All Deleted");
+                                              }
+                                            },
+                                            child: const Text("DeleteAll"))
+                                      ];
+                                    },
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        );
-                      },
-                    )
-                  : Container(color: Colors.black12,
-                    child: Center(
-                        child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "No Data",
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold,color: Colors.red.shade300),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Text(
-                            "Click + Button to Add Reminder",
-                            style: TextStyle(
-                                fontStyle: FontStyle.italic, fontSize: 15,color: Colors.green.shade800),
-                          ),
-                        ],
+                          );
+                        },
+                      )
+                    : Container(
+                        color: Colors.black12,
+                        child: Center(
+                            child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "No Data",
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.red.shade300),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              "Click + Button to Add Reminder",
+                              style: TextStyle(
+                                  fontStyle: FontStyle.italic,
+                                  fontSize: 15,
+                                  color: Colors.green.shade800),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              "or Refresh",
+                              style: TextStyle(
+                                  fontStyle: FontStyle.italic,
+                                  fontSize: 15,
+                                  color: Colors.black),
+                            ),
+                          ],
+                        )),
                       )),
-                  )),
 
-          // TODO End
-        ]),
+
+          ]),
+        ),
       ),
     );
   }
