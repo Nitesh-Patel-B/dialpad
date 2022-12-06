@@ -309,7 +309,7 @@ class _EventlistState extends State<Eventlist> {
                           Text(
                             "No Data",
                             style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
+                                fontSize: 20, fontWeight: FontWeight.bold,color: Colors.red.shade300),
                           ),
                           SizedBox(
                             height: 20,
@@ -317,7 +317,7 @@ class _EventlistState extends State<Eventlist> {
                           Text(
                             "Click + Button to Add Reminder",
                             style: TextStyle(
-                                fontStyle: FontStyle.italic, fontSize: 15),
+                                fontStyle: FontStyle.italic, fontSize: 15,color: Colors.green.shade800),
                           ),
                         ],
                       )),
