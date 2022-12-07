@@ -132,7 +132,7 @@ class _UpdateState extends State<Update> {
             TextButton(
                 onPressed: () {
                   if (choose == "Whatsapp") {
-                    // int id = widget.id;
+                    int id = widget.id;
                     String titl = title.text;
                     title.text = widget.title;
                     String nm = name.text;
@@ -159,12 +159,12 @@ class _UpdateState extends State<Update> {
                     }
 
                     Dbhelper()
-                        .updatedata(titl, nm, nmr, msgg, img, tyme, i, dbb!)
+                        .updatedata(titl, nm, nmr, msgg, img, tyme, i, id, dbb!)
                         .then((value) {
                       Navigator.pop(context);
                     });
                   } else if (choose == "message") {
-                    // int id = widget.id;
+                    int id = widget.id;
                     String titl = title.text;
                     title.text = widget.title;
                     String nm = name.text;
@@ -181,11 +181,16 @@ class _UpdateState extends State<Update> {
                         "${tt.hour.toString().padLeft(2, '0')}:${tt.minute.toString().padLeft(2, '0')}  ${tt.period.name}  "
                         "${dd.day.toString().padLeft(2, '0')}-${dd.month.toString().padLeft(2, '0')}-${dd.year}";
                     var i = selectval!.split(",")[0].replaceAll("(", "");
+
                     if (kDebugMode) {
                       print("updateselected====$lst");
                     }
+                    if (kDebugMode) {
+                      print(
+                          "updateselected====${widget.id}${widget.lst}${widget.name}${widget.number}${widget.title}${widget.mesag}${widget.timme}${widget.number}");
+                    }
                     Dbhelper()
-                        .updatedata(titl, nm, nmr, msgg, img, tyme, i, dbb!)
+                        .updatedata(titl, nm, nmr, msgg, img, tyme, i, id, dbb!)
                         .then((value) {
                       Navigator.pop(context);
                     });
@@ -451,6 +456,7 @@ class _UpdateState extends State<Update> {
                   ),
                 ],
               )
+
               // Container(
               //   color: Colors.black12,
               //   child: Row(

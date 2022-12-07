@@ -1144,8 +1144,13 @@ class _ScheduleState extends State<Schedule> {
                                               color: Colors.black),
                                         ),
                                       ],
-                                    ),SizedBox(height: 30,),
-                                    Row(mainAxisAlignment: MainAxisAlignment.center,
+                                    ),
+                                    SizedBox(
+                                      height: 30,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Text(
                                           "Refresh",
@@ -1162,7 +1167,6 @@ class _ScheduleState extends State<Schedule> {
                       )
                     ],
                   )
-
 
                   // SizedBox(
                   //   height: h * 0.391,
@@ -1270,11 +1274,6 @@ class _ScheduleState extends State<Schedule> {
                   //     },
                   //   ),
                   // ),
-
-
-
-
-
 
                   // TableCalendar(
                   //     calendarStyle: CalendarStyle(isTodayHighlighted: true),

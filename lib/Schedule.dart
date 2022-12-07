@@ -182,7 +182,6 @@ class _EventlistState extends State<Eventlist> {
               ),
             ),
 
-
             //
             // Container(
             //   height: bh * 0.8,
@@ -196,10 +195,6 @@ class _EventlistState extends State<Eventlist> {
             //     },
             //   ),
             // )
-
-
-
-
 
             Container(
                 margin: EdgeInsets.only(top: 20),
@@ -353,8 +348,6 @@ class _EventlistState extends State<Eventlist> {
                           ],
                         )),
                       )),
-
-
           ]),
         ),
       ),

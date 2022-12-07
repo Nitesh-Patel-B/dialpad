@@ -170,9 +170,9 @@ class Dbhelper {
   }
 
   Future<void> updatedata(String titl, String nm, String nmr, String msgg,
-      String imes, String times, String i, Database dbb) async {
+      String imes, String times, String idd, int id, Database dbb) async {
     String updt =
-        "update Schedule set namew='$nm',numberw='$nmr',messagew='$msgg',title='$titl',imagew='$imes' ,datew='$times' where ListData='$i'";
+        "update Schedule set namew='$nm',numberw='$nmr',messagew='$msgg',title='$titl',imagew='$imes' ,datew='$times' ,ListData='$idd' where id='$id'";
     int updtt = await dbb.rawUpdate(updt);
     print("Update2==$updtt");
   }
