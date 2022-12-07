@@ -427,7 +427,7 @@ class _UpdateState extends State<Update> {
                         color: Colors.black,
                         fontStyle: FontStyle.italic,
                         fontSize: 20),
-                    hint: Text("Select List"),
+                    hint: Text("${widget.lst}"),
                     value: selectval,
                     onChanged: (value) {
                       setState(() {

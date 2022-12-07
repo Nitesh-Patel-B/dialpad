@@ -49,8 +49,12 @@ class _AddlistState extends State<Addlist> {
                       duration: Duration(seconds: 2),
                       content: Text("List Added")));
                 }
-                ScaffoldMessenger.of(context)
-                    .showSnackBar(SnackBar(content: Text("Empty")));
+                else{
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(SnackBar(content: Text("Empty")));
+
+                }
+
               },
               child: Text(
                 "Save",

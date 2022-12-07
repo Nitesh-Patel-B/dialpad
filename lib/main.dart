@@ -1108,7 +1108,7 @@ class _ScheduleState extends State<Schedule> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      "No Data",
+                                      "No Data Found",
                                       style: TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold,
@@ -1153,7 +1153,7 @@ class _ScheduleState extends State<Schedule> {
                                           MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                          "Refresh",
+                                          "or Refresh",
                                           style: TextStyle(
                                               fontSize: 20,
                                               color: Colors.black,

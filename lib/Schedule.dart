@@ -137,72 +137,73 @@ class _EventlistState extends State<Eventlist> {
               ))
         ],
       ),
-      body: RefreshIndicator(
-        onRefresh: getdataa,
-        strokeWidth: 3,
-        edgeOffset: 5,
-        displacement: 50,
-        color: Colors.green,
-        backgroundColor: Colors.white70,
-        child: SingleChildScrollView(
-          child: Column(children: [
-            Container(
-              height: 80,
-              padding: EdgeInsets.only(top: 30, left: 10, right: 10),
-              child: TextField(
-                onChanged: (value) {
-                  setState(() {
-                    if (value.isNotEmpty) {
-                      searchlist = [];
-                      for (int i = 0; i < mp.length; i++) {
-                        String namm = mp[i]['title'];
-                        if (namm.toLowerCase().contains(value.toLowerCase())) {
-                          searchlist.add(mp[i]);
-                        }
+      body: SingleChildScrollView(
+        child: Column(children: [
+          Container(
+            height: 80,
+            padding: EdgeInsets.only(top: 30, left: 10, right: 10),
+            child: TextField(
+              onChanged: (value) {
+                setState(() {
+                  if (value.isNotEmpty) {
+                    searchlist = [];
+                    for (int i = 0; i < mp.length; i++) {
+                      String namm = mp[i]['title'];
+                      if (namm.toLowerCase().contains(value.toLowerCase())) {
+                        searchlist.add(mp[i]);
                       }
-                    } else {
-                      searchlist = mp;
                     }
-                  });
-                },
-                decoration: InputDecoration(
-                    suffixIcon: AvatarGlow(
-                        animate: onlisn,
-                        glowColor: Theme.of(context).primaryColor,
-                        duration: const Duration(milliseconds: 2000),
-                        repeatPauseDuration: const Duration(seconds: 1),
-                        repeat: true,
-                        endRadius: 40,
-                        child: IconButton(
-                            onPressed: () => lisn(),
-                            icon: Icon(onlisn ? Icons.mic : Icons.mic_none))),
-                    prefixIcon: Icon(Icons.search),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10))),
-              ),
+                  } else {
+                    searchlist = mp;
+                  }
+                });
+              },
+              decoration: InputDecoration(
+                  suffixIcon: AvatarGlow(
+                      animate: onlisn,
+                      glowColor: Theme.of(context).primaryColor,
+                      duration: const Duration(milliseconds: 2000),
+                      repeatPauseDuration: const Duration(seconds: 1),
+                      repeat: true,
+                      endRadius: 40,
+                      child: IconButton(
+                          onPressed: () => lisn(),
+                          icon: Icon(onlisn ? Icons.mic : Icons.mic_none))),
+                  prefixIcon: Icon(Icons.search),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10))),
             ),
+          ),
 
-            //
-            // Container(
-            //   height: bh * 0.8,
-            //   child: ListView.builder(
-            //     itemCount: mp.length,
-            //     itemBuilder: (context, index) {
-            //       // Map map = mp[index];
-            //       return Card(
-            //         child: ListTile(title: Text("")),
-            //       );
-            //     },
-            //   ),
-            // )
+          //
+          // Container(
+          //   height: bh * 0.8,
+          //   child: ListView.builder(
+          //     itemCount: mp.length,
+          //     itemBuilder: (context, index) {
+          //       // Map map = mp[index];
+          //       return Card(
+          //         child: ListTile(title: Text("")),
+          //       );
+          //     },
+          //   ),
+          // )
 
-            Container(
-                margin: EdgeInsets.only(top: 20),
-                height: bh * 0.85,
-                // height: h * 0.391,
+          Container(
+              margin: EdgeInsets.only(top: 20),
+              height: bh * 0.85,
+              // height: h * 0.391,
 
-                child: mp.isNotEmpty
-                    ? ListView.builder(
+              child: mp.isNotEmpty
+                  ? RefreshIndicator(
+
+                      onRefresh: getdata,
+                      strokeWidth: 3,
+                      edgeOffset: 5,
+                      displacement: 50,
+                      color: Colors.green,
+                      backgroundColor: Colors.white70,
+                      child: ListView.builder(
                         itemCount: issearch ? mp.length : searchlist.length,
                         itemBuilder: (context, index) {
                           Map map = issearch ? mp[index] : searchlist[index];
@@ -311,45 +312,45 @@ class _EventlistState extends State<Eventlist> {
                             ),
                           );
                         },
-                      )
-                    : Container(
-                        color: Colors.black12,
-                        child: Center(
-                            child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "No Data",
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.red.shade300),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Text(
-                              "Click + Button to Add Reminder",
-                              style: TextStyle(
-                                  fontStyle: FontStyle.italic,
-                                  fontSize: 15,
-                                  color: Colors.green.shade800),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              "or Refresh",
-                              style: TextStyle(
-                                  fontStyle: FontStyle.italic,
-                                  fontSize: 15,
-                                  color: Colors.black),
-                            ),
-                          ],
-                        )),
+                      ),
+                    )
+                  : Container(
+                      color: Colors.black12,
+                      child: Center(
+                          child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "No Data Found",
+                            style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.red.shade300),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            "Click + Button to Add Reminder",
+                            style: TextStyle(
+                                fontStyle: FontStyle.italic,
+                                fontSize: 15,
+                                color: Colors.green.shade800),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            "or Refresh",
+                            style: TextStyle(
+                                fontStyle: FontStyle.italic,
+                                fontSize: 15,
+                                color: Colors.black),
+                          ),
+                        ],
                       )),
-          ]),
-        ),
+                    )),
+        ]),
       ),
     );
   }
