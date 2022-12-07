@@ -1004,6 +1004,38 @@ class _ScheduleState extends State<Schedule> {
                                   TextStyle(fontSize: 20, color: Colors.blue),
                             ),
                           ),
+                          Container(
+                              child: IconButton(
+                                  onPressed: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                        content: Row(
+                                          children: [
+                                            Text("Swip Left to"),
+                                            Text(
+                                              "  Edit  ",
+                                              style: TextStyle(fontWeight: FontWeight.bold,
+                                                  color: Colors.green,
+                                                  fontStyle: FontStyle.italic),
+                                            ),
+                                            Text("or"),
+                                            Text(
+                                              "  Delete  ",
+                                              style: TextStyle(fontWeight: FontWeight.bold,
+                                                  fontStyle: FontStyle.italic,
+                                                  color: Colors.redAccent),
+                                            ),
+                                            Text("List Record"),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  icon: Icon(
+                                    Icons.info_outline,
+                                    size: 15,
+                                  ))),
                           SizedBox(width: w * 0.5),
                           Container(
                             alignment: Alignment.bottomRight,
